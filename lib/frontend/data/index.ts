@@ -1,5 +1,7 @@
 import { Listing } from '.prisma/client'
 import useSWR, { useSWRConfig } from 'swr'
+import { ListingWithSold } from '../../domains/listing/api'
+import { OrderWithListing } from '../../domains/order/api'
 import { creater, fetcher } from './helpers'
 
 export function useListings() {
@@ -31,4 +33,34 @@ export function useCreateListing() {
     return response
   }
   return { createListing }
+}
+
+export function useListing(id: string) {
+  const { data, error } = useSWR<ListingWithSold, Error>(`/api/listings/${id}`, fetcher)
+  return {
+    listing: data,
+    isLoading: !error && !data,
+    isError: error,
+  }
+}
+
+export function useCreateOrder() {
+  const { mutate } = useSWRConfig()
+  const createOrder = async (listingId: string): Promise<Listing> => {
+    const body = { listingId }
+    const response = await creater<Listing>('/api/orders/', body)
+
+    mutate(`/api/orders`)
+    return response
+  }
+  return { createOrder }
+}
+
+export function useMyOrders() {
+  const { data, error } = useSWR<OrderWithListing[], Error>(`/api/orders`, fetcher)
+  return {
+    myOrders: data,
+    isLoading: !error && !data,
+    isError: error,
+  }
 }
