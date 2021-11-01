@@ -10,9 +10,9 @@ export default withApiAuthRequired(async function handle(req, res) {
     return
   }
   const { method, query } = req
-  const { listingId } = req.body
   switch (method) {
     case 'POST':
+      const { listingId } = req.body
       const order = await handlePostOrder(userId, listingId)
       res.json(order)
       break
