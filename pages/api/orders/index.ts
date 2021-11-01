@@ -21,7 +21,11 @@ export default withApiAuthRequired(async function handle(req, res) {
     case 'POST':
       const { listingId } = req.body
       const order = await handlePostOrder(userId, listingId)
-      res.json(order)
+      if (!order) {
+        res.status(400).end()
+      } else {
+        res.json(order)
+      }
       break
     default:
       res.setHeader('Allow', ['POST'])

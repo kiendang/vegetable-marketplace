@@ -1,5 +1,5 @@
 import { Listing } from '.prisma/client'
-import { findListingById, listListings, listMyListings } from '../../../lib/domains/listing/api'
+import { findListingById, ListingWithSold, listListings, listMyListings } from '../../../lib/domains/listing/api'
 import { listMyOrders, OrderWithListing } from '../../domains/order/api'
 
 export async function handleGetListings(userId: string, query: {
@@ -14,7 +14,7 @@ export async function handleGetListings(userId: string, query: {
   return listings
 }
 
-export async function handleGetListing(id: string): Promise<Listing | null> {
+export async function handleGetListing(id: string): Promise<ListingWithSold | null> {
   return await findListingById(id)
 }
 

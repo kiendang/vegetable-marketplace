@@ -50,7 +50,7 @@ const Dashboard: NextPage = () => {
       <Typography variant="body1">{listing.description}</Typography>
       <Box my={2}>
         <Box mr={2}>
-          <Button variant="contained" onClick={handleClickOpen}>
+          <Button variant="contained" onClick={handleClickOpen} disabled={listing.sold}>
             Place order
           </Button>
           <Dialog

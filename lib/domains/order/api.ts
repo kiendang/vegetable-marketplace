@@ -1,7 +1,17 @@
 import { Listing, Order, Prisma } from '.prisma/client'
 import { prisma } from '../../db/prisma'
 
-export const createOrder = async (createOrderPayload: Prisma.OrderCreateInput) => {
+export const createOrder = async (createOrderPayload: Prisma.OrderCreateInput): Promise<Order | null> => {
+  const listingId = createOrderPayload.listing.connect?.id
+  if (!listingId) {
+    return null
+  }
+
+  const orderExists = await prisma.order.findFirst({ where: { listingId } })
+  if (orderExists) {
+    return null
+  }
+
   const result = await prisma.order.create({
     data: createOrderPayload,
   })

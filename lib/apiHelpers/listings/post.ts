@@ -14,7 +14,7 @@ export async function handlePostListing(userId: string, body: any): Promise<List
   return createListing(createListingPayload)
 }
 
-export async function handlePostOrder(userId: string, listingId: string): Promise<Order> {
+export async function handlePostOrder(userId: string, listingId: string): Promise<Order | null> {
   const createOrderPayload: Prisma.OrderCreateInput = {
     user: { connect: { id: userId } },
     listing: { connect: { id: listingId } }
