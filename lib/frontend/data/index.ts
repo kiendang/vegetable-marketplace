@@ -32,3 +32,12 @@ export function useCreateListing() {
   }
   return { createListing }
 }
+
+export function useListing(id: string) {
+  const { data, error } = useSWR<Listing, Error>(`/api/listings/${id}`, fetcher)
+  return {
+    listing: data,
+    isLoading: !error && !data,
+    isError: error,
+  }
+}
