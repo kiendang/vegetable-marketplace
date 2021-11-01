@@ -1,5 +1,6 @@
 import { Listing } from '.prisma/client'
 import useSWR, { useSWRConfig } from 'swr'
+import { OrderWithListing } from '../../domains/order/api'
 import { creater, fetcher } from './helpers'
 
 export function useListings() {
@@ -52,4 +53,13 @@ export function useCreateOrder() {
     return response
   }
   return { createOrder }
+}
+
+export function useMyOrders() {
+  const { data, error } = useSWR<OrderWithListing[], Error>(`/api/orders`, fetcher)
+  return {
+    myOrders: data,
+    isLoading: !error && !data,
+    isError: error,
+  }
 }
