@@ -13,7 +13,11 @@ export default withApiAuthRequired(async function handle(req, res) {
   switch (method) {
     case 'GET': {
       const listing = await handleGetListing(query.id as string)
-      res.status(200).json(listing)
+      if (!listing) {
+        res.status(404).end(`Listing not found`)
+      } else {
+        res.status(200).json(listing)
+      }
       break
     }
     default:

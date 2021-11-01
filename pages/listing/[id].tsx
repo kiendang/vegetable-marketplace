@@ -10,8 +10,8 @@ const Dashboard: NextPage = () => {
   const router = useRouter()
   const id = router.query.id as string
   const { listing, isLoading, isError } = useListing(id)
-  if (!listing || isLoading) return <Loader />
   if (isError) return <ErrorHanlder error={isError} />
+  if (!listing || isLoading) return <Loader />
   return (
     <Box m={4}>
       <Typography variant="h6">{listing.title}</Typography>
