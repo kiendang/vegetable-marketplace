@@ -41,3 +41,15 @@ export function useListing(id: string) {
     isError: error,
   }
 }
+
+export function useCreateOrder() {
+  const { mutate } = useSWRConfig()
+  const createOrder = async (listingId: string): Promise<Listing> => {
+    const body = { listingId }
+    const response = await creater<Listing>('/api/orders/', body)
+
+    mutate(`/api/orders`)
+    return response
+  }
+  return { createOrder }
+}
